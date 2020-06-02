@@ -3,8 +3,12 @@ package main
 import (
 	"bytes"
 	"crypto/sha256"
-	"log"
 )
+
+// BlockChain ...
+type BlockChain struct {
+	blocks []*Block
+}
 
 // Block ...
 type Block struct {
@@ -28,5 +32,4 @@ func CreateBlock(data string, prevHash []byte) *Block {
 }
 
 func main() {
-	log.Println("First blockchain message")
 }

@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"crypto/sha256"
+	"fmt"
 )
 
 // BlockChain ...
@@ -49,4 +50,15 @@ func InitBlockChain() *BlockChain {
 }
 
 func main() {
+	chain := InitBlockChain()
+
+	chain.AddBlock("First block")
+	chain.AddBlock("Second block")
+	chain.AddBlock("Third block")
+
+	for _, block := range chain.blocks {
+		fmt.Printf("Previous Hash: %x\n", block.PrevHash)
+		fmt.Printf("Data : %s\n", block.Data)
+		fmt.Printf("Hash: %x\n", block.Hash)
+	}
 }

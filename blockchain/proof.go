@@ -2,8 +2,11 @@ package blockchain
 
 import (
 	"bytes"
+	"crypto/sha256"
 	"encoding/binary"
+	"fmt"
 	"log"
+	"math"
 	"math/big"
 )
 
@@ -35,6 +38,26 @@ func (pow *ProofOfWork) InitData(nonce int) []byte {
 		},
 		[]byte{})
 	return data
+}
+
+// Run ...
+func (pow *ProofOfWork) Run() (int, []byte) {
+	var intHash big.Int
+	var hash [32]byte
+	nonce := 0
+	for nonce < math.MaxInt64 {
+		data := pow.InitData(nonce)
+		hash := sha256.Sum256(data)
+		fmt.Printf("\r%x", hash)
+		intHash.SetBytes(hash[:])
+		if intHash.Cmp(pow.Target) == -1 {
+			break
+		} else {
+			nonce++
+		}
+	}
+	fmt.Println()
+	return nonce, hash[:]
 }
 
 // ToHex ...

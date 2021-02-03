@@ -10,7 +10,7 @@ import (
 	"math/big"
 )
 
-// Difficulty ...
+// Difficulty will be static for the example application
 const Difficulty = 12
 
 // ProofOfWork ...
@@ -58,6 +58,15 @@ func (pow *ProofOfWork) Run() (int, []byte) {
 	}
 	fmt.Println()
 	return nonce, hash[:]
+}
+
+// Validate ...
+func (pow *ProofOfWork) Validate() bool {
+	var intHash big.Int
+	data := pow.InitData(pow.Block.Nonce)
+	hash := sha256.Sum256(data)
+	intHash.SetBytes(hash[:])
+	return intHash.Cmp(pow.Target) == -1
 }
 
 // ToHex ...
